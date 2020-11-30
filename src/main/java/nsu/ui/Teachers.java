@@ -1,4 +1,4 @@
-package nsu.ui.mvc;
+package nsu.ui;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class Teachers {
