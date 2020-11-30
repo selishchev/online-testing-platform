@@ -25,47 +25,48 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import nsu.ui.Message;
-import nsu.ui.MessageRepository;
+import nsu.ui.TestRepository;
+
+import java.util.ArrayList;
 
 /**
  * @author Rob Winch
  */
 @Controller
 @RequestMapping("/")
-public class MessageController {
-	private final MessageRepository messageRepository;
+public class TestController {
+	private final TestRepository testRepository;
 
 	@Autowired
-	public MessageController(MessageRepository messageRepository) {
-		this.messageRepository = messageRepository;
+	public TestController(TestRepository testRepository) {
+		this.testRepository = testRepository;
 	}
 
 	@RequestMapping
 	public ModelAndView list() {
-		Iterable<Message> messages = this.messageRepository.findAll();
-		return new ModelAndView("messages/list", "messages", messages);
+		ArrayList<Tests> tests = this.testRepository.findAll();
+		return new ModelAndView("tests/list", "tests", tests);
 	}
 
 	@RequestMapping("{id}")
-	public ModelAndView view(@PathVariable("id") Message message) {
-		return new ModelAndView("messages/view", "message", message);
+	public ModelAndView view(@PathVariable("id") Tests test) {
+		return new ModelAndView("tests/view", "test", test);
 	}
 
 	@RequestMapping(params = "form", method = RequestMethod.GET)
-	public String createForm(@ModelAttribute Message message) {
-		return "messages/form";
+	public String createForm(@ModelAttribute Tests test) {
+		return "tests/form";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView create(@Valid Message message, BindingResult result,
+	public ModelAndView create(@Valid Tests test, BindingResult result,
 			RedirectAttributes redirect) {
 		if (result.hasErrors()) {
-			return new ModelAndView("messages/form", "formErrors", result.getAllErrors());
+			return new ModelAndView("tests/form", "formErrors", result.getAllErrors());
 		}
-		message = this.messageRepository.save(message);
-		redirect.addFlashAttribute("globalMessage", "Successfully created a new message");
-		return new ModelAndView("redirect:/{message.id}", "message.id", message.getId());
+		test = this.testRepository.save(test);
+		redirect.addFlashAttribute("globalMessage", "Successfully created a new test");
+		return new ModelAndView("redirect:/{test.id}", "test.id", test.getId());
 	}
 
 	@RequestMapping("foo")

@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = SampleWebUiApplication.class)
-public class MessageControllerWebTests {
+public class TestControllerWebTests {
 
 	@Autowired
 	private WebApplicationContext wac;

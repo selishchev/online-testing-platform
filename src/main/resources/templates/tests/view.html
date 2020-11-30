@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+  <head>
+    <title>Tests: View</title>
+  </head>
+  <body>
+    <h1 layout:fragment="header">Tests : Create</h1>
+    <div layout:fragment="content"
+        class="container">
+      <div class="alert alert-success"
+          th:if="${globalMessage}"
+          th:text="${globalMessage}">
+        Some Success test
+      </div>
+      <div class="pull-right">
+        <a th:href="@{/}" href="list.html">
+          Tests
+        </a>
+      </div>
+      <dl>
+        <dt>ID</dt>
+        <dd id="id" th:text="${test.id}">123</dd>
+        <dt>Test name</dt>
+        <dd id="summary"
+            th:text="${test.testName}">
+          Test
+        </dd>
+      </dl>
+    </div>
+  </body>
+</html>

@@ -29,16 +29,16 @@ import org.springframework.core.convert.converter.Converter;
 public class SampleWebUiApplication {
 
 	@Bean
-	public MessageRepository messageRepository() {
-		return new InMemoryMessageRespository();
+	public TestRepository testRepository() {
+		return new DatabaseRepository();
 	}
 
 	@Bean
-	public Converter<String, Message> messageConverter() {
-		return new Converter<String, Message>() {
+	public Converter<String, Tests> testConverter() {
+		return new Converter<String, Tests>() {
 			@Override
-			public Message convert(String id) {
-				return messageRepository().findMessage(Long.valueOf(id));
+			public Tests convert(String id) {
+				return testRepository().findTest(Long.valueOf(id));
 			}
 		};
 	}
