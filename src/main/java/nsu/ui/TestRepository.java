@@ -13,15 +13,17 @@
 
 package nsu.ui;
 
+import java.util.ArrayList;
+
 /**
  * @author Rob Winch
  */
-public interface MessageRepository {
+public interface TestRepository {
 
-	Iterable<Message> findAll();
+	ArrayList<Tests> findAll();
 
-	Message save(Message message);
+	Tests save(Tests test);
 
-	Message findMessage(Long id);
+	Tests findTest(Long id);
 
 }

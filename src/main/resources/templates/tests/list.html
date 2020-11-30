@@ -3,38 +3,35 @@
   xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
   layout:decorator="layout">
   <head>
-    <title>Messages : View all</title>
+    <title>Tests : View all</title>
   </head>
   <body>
-    <h1 layout:fragment="header">Messages : View all</h1>
+    <h1 layout:fragment="header">Tests : View all</h1>
     <div layout:fragment="content" class="container">
       <div class="pull-right">
-        <a href="form.html" th:href="@{/(form)}">Create Message</a>
+        <a href="form.html" th:href="@{/(form)}">Create Test</a>
        </div>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
             <td>ID</td>
-            <td>Created</td>
-            <td>Summary</td>
+            <td>Test</td>
+            <td>Teacher</td>
           </tr>
         </thead>
         <tbody>
-          <tr th:if="${messages.empty}">
+          <tr th:if="${tests.empty}">
             <td colspan="3">
-              No messages
+              No tests
             </td>
           </tr>
-          <tr th:each="message : ${messages}">
-            <td th:text="${message.id}">1</td>
-            <td th:text="${#calendars.format(message.created)}">
-              July 11, 2012 2:17:16 PM CDT
-            </td>
+          <tr th:each="test : ${tests}">
+            <td th:text="${test.id}">1</td>
             <td>
               <a href="view.html"
-                  th:href="@{'/' + ${message.id}}"
-                  th:text="${message.summary}">
-                The summary
+                  th:href="@{'/' + ${test.id}}"
+                  th:text="${test.testName}">
+                Test name
               </a>
             </td>
           </tr>
