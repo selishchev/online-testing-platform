@@ -1,18 +1,34 @@
 package nsu.ui;
 import org.hibernate.validator.constraints.NotEmpty;
+import java.util.ArrayList;
 
 public class Tests {
 
     private Long id;
 
-    @NotEmpty(message = "Id is required.")
-    private Long teacherID;
+    @NotEmpty(message = "Name is required.")
+    private String teacher;
 
     @NotEmpty(message = "Question is required.")
     private String question;
 
     @NotEmpty(message = "Test Name is required.")
     private String testName;
+
+    public ArrayList<String> getListOfQuestions() {
+        return listOfQuestions;
+    }
+
+    private ArrayList<String> listOfQuestions;
+
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.listOfQuestions.add(question);
+    }
 
 
     public Long getId() {
@@ -23,21 +39,14 @@ public class Tests {
         this.id = id;
     }
 
-    public Long getTeacherID() {
-        return teacherID;
+    public String getTeacher() {
+        return teacher;
     }
 
-    public void setTeacherID(Long teacherID) {
-        this.teacherID = teacherID;
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
 
     public String getTestName() {
         return testName;
