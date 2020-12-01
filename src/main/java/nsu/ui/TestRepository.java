@@ -13,6 +13,7 @@
 
 package nsu.ui;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +23,7 @@ public interface TestRepository {
 
 	ArrayList<Tests> findAll();
 
-	Tests save(Tests test);
+	Tests save(Tests test) throws SQLException;
 
 	Tests findTest(Long id);
 

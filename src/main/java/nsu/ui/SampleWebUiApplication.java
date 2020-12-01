@@ -23,13 +23,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 
+import java.sql.SQLException;
+
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class SampleWebUiApplication {
 
 	@Bean
-	public TestRepository testRepository() {
+	public TestRepository testRepository() throws SQLException, ClassNotFoundException {
 		return new DatabaseRepository();
 	}
 
@@ -38,7 +40,14 @@ public class SampleWebUiApplication {
 		return new Converter<String, Tests>() {
 			@Override
 			public Tests convert(String id) {
-				return testRepository().findTest(Long.valueOf(id));
+				try {
+					return testRepository().findTest(Long.valueOf(id));
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				return null;
 			}
 		};
 	}

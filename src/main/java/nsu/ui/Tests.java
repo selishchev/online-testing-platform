@@ -6,7 +6,6 @@ public class Tests {
 
     private Long id;
 
-    @NotEmpty(message = "Name is required.")
     private String teacher;
 
     @NotEmpty(message = "Question is required.")
