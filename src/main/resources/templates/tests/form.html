@@ -9,7 +9,7 @@
     <h1 layout:fragment="header">Tests : Create</h1>
     <div layout:fragment="content"
         class="container">
-      <form id="messageForm"
+      <form id="testForm"
           th:action="@{/(form)}"
           th:object="${tests}"
           action="#"
@@ -26,11 +26,23 @@
             Tests
           </a>
         </div>
+        <div class="pull-right">
+          <input type="button" value="Add"/>
+        </div>
         <label for="testName">Test name</label>
         <input type="text"
             th:field="*{testName}"
             th:class="${#fields.hasErrors('testName')} ? 'field-error'"/>
+        <label for="question">Question</label>
+        <input type="text"
+               th:field="*{question}"
+               th:class="${#fields.hasErrors('question')} ? 'field-error'"/>
+        <label for="question">Questions</label>
+        <textarea
+            th:field="*{question}"
+            th:class="${#fields.hasErrors('question')} ? 'field-error'"></textarea>
         <div class="form-actions">
+          <input type="reset" value="Cancel"/>
           <input type="submit" value="Create"/>
         </div>
       </form>

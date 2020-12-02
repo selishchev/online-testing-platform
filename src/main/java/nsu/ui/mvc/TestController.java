@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import nsu.ui.TestRepository;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -54,14 +55,14 @@ public class TestController {
 		return new ModelAndView("tests/view", "test", test);
 	}
 
-	@RequestMapping(params = "form", method = RequestMethod.GET)
+	@RequestMapping(params = "create", method = RequestMethod.GET)
 	public String createForm(@ModelAttribute Tests test) {
 		return "tests/form";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView create(@Valid Tests test, BindingResult result,
-			RedirectAttributes redirect) {
+			RedirectAttributes redirect) throws SQLException {
 		if (result.hasErrors()) {
 			return new ModelAndView("tests/form", "formErrors", result.getAllErrors());
 		}
