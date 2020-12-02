@@ -44,7 +44,7 @@ public class TestController {
 		this.testRepository = testRepository;
 	}
 
-	@RequestMapping
+	@RequestMapping("tests")
 	public ModelAndView list() {
 		ArrayList<Tests> tests = this.testRepository.findAll();
 		return new ModelAndView("tests/list", "tests", tests);
