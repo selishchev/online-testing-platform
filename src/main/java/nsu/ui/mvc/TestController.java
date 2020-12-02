@@ -15,6 +15,7 @@ package nsu.ui.mvc;
 
 import javax.validation.Valid;
 
+import nsu.ui.Question;
 import nsu.ui.Tests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,8 +57,8 @@ public class TestController {
 	}
 
 	@RequestMapping(params = "create", method = RequestMethod.GET)
-	public String createForm(@ModelAttribute Tests test) {
-		return "tests/form";
+	public ModelAndView createForm(@ModelAttribute Tests test) {
+		return new ModelAndView("tests/form", "test", test);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

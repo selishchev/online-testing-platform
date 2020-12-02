@@ -1,51 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-  layout:decorator="layout">
-  <head>
-    <title>Tests : Create</title>
-  </head>
-  <body>
-    <h1 layout:fragment="header">Tests : Create</h1>
-    <div layout:fragment="content"
-        class="container">
-      <form id="testForm"
-          th:action="@{/(form)}"
-          th:object="${tests}"
-          action="#"
-          method="post">
-        <div th:if="${#fields.hasErrors('*')}"
-            class="alert alert-error">
-          <p th:each="error : ${#fields.errors('*')}"
-              th:text="${error}">
-            Validation error
-          </p>
-        </div>
-        <div class="pull-right">
-          <a th:href="@{/}" href="tests.html">
-            Tests
-          </a>
-        </div>
-        <div class="pull-right">
-          <input type="button" value="Add"/>
-        </div>
-        <label for="testName">Test name</label>
-        <input type="text"
-            th:field="*{testName}"
-            th:class="${#fields.hasErrors('testName')} ? 'field-error'"/>
-        <label for="question">Question</label>
-        <input type="text"
-               th:field="*{question}"
-               th:class="${#fields.hasErrors('question')} ? 'field-error'"/>
-        <label for="question">Questions</label>
-        <textarea
-            th:field="*{question}"
-            th:class="${#fields.hasErrors('question')} ? 'field-error'"></textarea>
-        <div class="form-actions">
-          <input type="reset" value="Cancel"/>
-          <input type="submit" value="Create"/>
-        </div>
-      </form>
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+  <title>Tests : Create</title>
+</head>
+<body>
+<h1 layout:fragment="header">Tests : Create</h1>
+<div layout:fragment="content"
+     class="container">
+  <form id="testForm"
+        th:action="@{/(form)}"
+        th:object="${test}"
+        action="#"
+        method="post">
+    <div th:if="${#fields.hasErrors('*')}"
+         class="alert alert-error">
+      <p th:each="error : ${#fields.errors('*')}"
+         th:text="${error}">
+        Validation error
+      </p>
     </div>
-  </body>
+    <div class="pull-right">
+      <a th:href="@{/}" href="tests.html">
+        Tests
+      </a>
+    </div>
+    <div class="pull-right">
+      <input type="button" value="Add"/>
+    </div>
+    <label for="testName">Test name</label>
+    <input type="text"
+           th:field="*{testName}"
+           th:class="${#fields.hasErrors('testName')} ? 'field-error'"/>
+    <label for="question">Question</label>
+    <input type="text"
+           th:field="*{question}"
+           th:class="${#fields.hasErrors('question')} ? 'field-error'"/>
+    <div class="form-actions">
+      <input type="reset" value="Cancel"/>
+      <input type="submit" value="Create"/>
+    </div>
+  </form>
+</div>
+</body>
 </html>
