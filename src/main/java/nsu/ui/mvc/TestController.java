@@ -15,7 +15,6 @@ package nsu.ui.mvc;
 
 import javax.validation.Valid;
 
-import nsu.ui.Question;
 import nsu.ui.Tests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,7 +68,7 @@ public class TestController {
 		}
 		test = this.testRepository.save(test);
 		redirect.addFlashAttribute("globalMessage", "Successfully created a new test");
-		return new ModelAndView("redirect:/{test.id}", "test.id", test.getId());
+		return new ModelAndView("tests/form", "test", test);
 	}
 
 	@RequestMapping("foo")

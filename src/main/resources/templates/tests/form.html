@@ -10,7 +10,7 @@
 <div layout:fragment="content"
      class="container">
   <form id="testForm"
-        th:action="@{/(form)}"
+        th:action="@{/(create)}"
         th:object="${test}"
         action="#"
         method="post">
@@ -25,9 +25,6 @@
       <a th:href="@{/}" href="tests.html">
         Tests
       </a>
-    </div>
-    <div class="pull-right">
-      <input type="button" value="Add"/>
     </div>
     <label for="testName">Test name</label>
     <input type="text"

@@ -10,11 +10,16 @@ public class Tests {
 
     private Teachers teacher;
 
-    public String getQuestion() {
-        return question;
+    @NotEmpty(message = "Question is required.")
+    private String question;
+
+    public void setQuestion(String question){
+        this.question = question;
     }
 
-    private String question;
+    public String getQuestion(){
+        return this.question;
+    }
 
     public void setTeacher(Teachers teacher){
         this.teacher = teacher;
@@ -30,7 +35,7 @@ public class Tests {
         return this.listOfQuestions;
     }
 
-    public void setQuestion(String question) {
+    public void setQuestionToList(String question) {
         this.listOfQuestions.add(question);
     }
 
