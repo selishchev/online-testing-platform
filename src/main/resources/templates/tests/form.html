@@ -30,10 +30,6 @@
         <input type="text"
             th:field="*{testName}"
             th:class="${#fields.hasErrors('testName')} ? 'field-error'"/>
-        <label for="question">Question</label>
-        <textarea
-            th:field="*{question}"
-            th:class="${#fields.hasErrors('question')} ? 'field-error'"></textarea>
         <div class="form-actions">
           <input type="submit" value="Create"/>
         </div>

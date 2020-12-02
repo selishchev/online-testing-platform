@@ -1,8 +1,5 @@
 package nsu.ui;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,41 +10,57 @@ public class DatabaseRepository implements TestRepository {
     private static Statement statement;
     private static ResultSet result;
 
+    public DatabaseRepository() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/platform",
+                    "root", "654");
+            statement = connection.createStatement();
+        } catch (Exception e) {
+            System.out.println("Не удалось подключиться к базе данных. ");
+        }
+    }
+
     @Override
     public ArrayList<Tests> findAll() {
-        ArrayList<Tests> test = new ArrayList<Tests>();
-        ArrayList<Tests> testNames = new ArrayList<>();
-        HashMap<Long, String> testTeacher = new HashMap<Long, String>();
-        String selectSQL = "SELECT id, second_name from teachers";
-        try {
-            result = statement.executeQuery(selectSQL);
-            while (result.next()) {
-                testTeacher.put(result.getLong(1), result.getString(2));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        String selectSql = "SELECT test_name from tests";
+        ArrayList<Tests> tests = new ArrayList<>();
+        ArrayList<String> testNames = new ArrayList<>();
+        ArrayList<String> testQuestions = new ArrayList<>();
+        HashMap<Long, Teachers> testTeacher = new HashMap<>();
+        Tests test = null;
 
         try {
-            result = statement.executeQuery(selectSql);
+            // Получаем список всех названий тестов
+            String selectNames = "SELECT test_name from test";
+            result = statement.executeQuery(selectNames);
+            while (result.next()) {
+                if(!testNames.contains(result.getString(1))) {
+                    testNames.add(result.getString(1));
+                }
+            }
+
+            // Формирование объектов Tests
+            for(String testName : testNames) {
+                String selectForTest = "SELECT id from test WHERE test_name = '" + testName + "'";
+                result = statement.executeQuery(selectForTest);
+                while (result.next()) {
+                    test = new Tests();
+                    test.setId(result.getLong(1));
+                    test.setTestName(testName);
+                }
+                if(test != null) {
+                    String selectQuestions = "SELECT question from test WHERE test_name = '" + testName + "'";
+                    result = statement.executeQuery(selectQuestions);
+                    while (result.next()) {
+                        test.setQuestion(result.getString(1));
+                    }
+                    tests.add(test);
+                }
+            }
         } catch (SQLException e) {
             System.out.println("Ошибка Select");
         }
-        try {
-            while (result.next()) {
-                Tests tests = new Tests();
-                tests.setId(result.getLong(1));
-                tests.setTeacher(testTeacher.);
-                tests.setQuestion(result.getString(3));
-                tests.setTestName(result.);
-
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return test;
+        return tests;
     }
 
 

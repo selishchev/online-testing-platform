@@ -6,7 +6,7 @@
     <title>Tests : View all</title>
   </head>
   <body>
-    <h1 layout:fragment="header">Tests : View all</h1>
+    <h1 layout:fragment="header"></h1>
     <div layout:fragment="content" class="container">
       <div class="pull-right">
         <a href="form.html" th:href="@{/(form)}">Create Test</a>
@@ -14,26 +14,17 @@
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <td>ID</td>
             <td>Test</td>
-            <td>Teacher</td>
           </tr>
         </thead>
         <tbody>
           <tr th:if="${tests.empty}">
-            <td colspan="3">
+            <td colspan="1">
               No tests
             </td>
           </tr>
           <tr th:each="test : ${tests}">
-            <td th:text="${test.id}">1</td>
-            <td>
-              <a href="view.html"
-                  th:href="@{'/' + ${test.id}}"
-                  th:text="${test.testName}">
-                Test name
-              </a>
-            </td>
+            <td th:text="${test.testName}">1</td>
           </tr>
         </tbody>
       </table>

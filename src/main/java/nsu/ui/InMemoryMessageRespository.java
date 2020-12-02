@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * @author Dave Syer
  */
+/**
 public class InMemoryMessageRespository implements MessageRepository {
 
 	private static AtomicLong counter = new AtomicLong();
@@ -51,3 +52,4 @@ public class InMemoryMessageRespository implements MessageRepository {
 	}
 
 }
+**/

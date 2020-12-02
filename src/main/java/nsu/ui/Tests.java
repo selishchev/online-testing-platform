@@ -6,30 +6,27 @@ public class Tests {
 
     private Long id;
 
-    @NotEmpty(message = "Name is required.")
-    private String teacher;
+    private ArrayList<String> listOfQuestions = new ArrayList<>();
 
-    @NotEmpty(message = "Question is required.")
-    private String question;
+    private Teachers teacher;
+
+    public void setTeacher(Teachers teacher){
+        this.teacher = teacher;
+    }
+    public Teachers getTeacher(){
+        return this.teacher;
+    }
 
     @NotEmpty(message = "Test Name is required.")
     private String testName;
 
     public ArrayList<String> getListOfQuestions() {
-        return listOfQuestions;
-    }
-
-    private ArrayList<String> listOfQuestions;
-
-
-    public String getQuestion() {
-        return question;
+        return this.listOfQuestions;
     }
 
     public void setQuestion(String question) {
         this.listOfQuestions.add(question);
     }
-
 
     public Long getId() {
         return id;
@@ -38,15 +35,6 @@ public class Tests {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
-    }
-
 
     public String getTestName() {
         return testName;
