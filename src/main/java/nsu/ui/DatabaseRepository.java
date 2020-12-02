@@ -10,7 +10,7 @@ public class DatabaseRepository implements TestRepository {
     private static Connection connection;
     public static final String url = "jdbc:mysql://localhost:3306/platform";
     public static final String user = "root";
-    public static final String pwd = "32232";
+    public static final String pwd = "654";
     private static Statement statement;
     private static ResultSet result;
 
@@ -65,6 +65,7 @@ public class DatabaseRepository implements TestRepository {
                     String selectQuestions = "SELECT question from test WHERE test_name = '" + testName + "'";
                     result = statement.executeQuery(selectQuestions);
                     while (result.next()) {
+                        test.setQuestionToList(result.getString(1));
                         test.setQuestion(result.getString(1));
                     }
                     tests.add(test);
@@ -78,22 +79,11 @@ public class DatabaseRepository implements TestRepository {
 
 
     @Override
-    public Tests save(Tests test) throws SQLException {
-        String testName = "'" + test.getTestName() + "'";
-        String question = "'" + test.getQuestion() + "'";
-        try (Statement st = connection.createStatement()) {
-            st.executeUpdate(String.format("INSERT into test(test_name, question) " +
-                    "VALUES ('%s', '%s', '%s', '%s', '%s')", testName, question));
-            try (ResultSet rs2 = st.executeQuery("select id from test where test_name = " + testName + " and question = " + question)) {
-                Long id = test.getId();
-                if (id == null) {
-                    while (rs2.next()) {
-                        test.setId(rs2.getLong(1));
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public Tests save(Tests test) {
+        String insertSql = "INSERT INTO test(test_name, question) values('" + test.getTestName() + "', '"
+                + test.getQuestion() + "')";
+        try {
+            statement.executeUpdate(insertSql);
         } catch (Exception e) {
             e.printStackTrace();
         }
