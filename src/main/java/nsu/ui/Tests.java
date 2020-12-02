@@ -10,6 +10,12 @@ public class Tests {
 
     private Teachers teacher;
 
+    public String getQuestion() {
+        return question;
+    }
+
+    private String question;
+
     public void setTeacher(Teachers teacher){
         this.teacher = teacher;
     }
