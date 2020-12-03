@@ -1,0 +1,12 @@
+.navbar-inner {
+    background-color: #FFBA00;
+    background-image: none;
+}
+
+.myNavbar {
+    margin: auto;
+    color: #000000;
+}
+.navbar .nav>li>a {
+    color: #000000;
+}

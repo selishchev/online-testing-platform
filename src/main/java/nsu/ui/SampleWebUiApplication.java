@@ -42,10 +42,8 @@ public class SampleWebUiApplication {
 			public Tests convert(String id) {
 				try {
 					return testRepository().findTest(Long.valueOf(id));
-				} catch (SQLException throwables) {
+				} catch (SQLException | ClassNotFoundException throwables) {
 					throwables.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
 				}
 				return null;
 			}
