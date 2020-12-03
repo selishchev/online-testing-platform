@@ -30,7 +30,7 @@
       <input type="text" placeholder="Текст вопроса" id="question"
              th:field="*{question}"
              th:class="${#fields.hasErrors('question')} ? 'field-error'"/>
-      <button>Add</button>
+      <input type="submit" value="Add"></input>
     </form>
     <label for="questions"></label>
     <textarea placeholder="В тесте пока нет вопросов" id="questions"></textarea>

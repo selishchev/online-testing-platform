@@ -68,7 +68,7 @@ public class TestController {
 		}
 		test = this.testRepository.save(test);
 		redirect.addFlashAttribute("globalMessage", "Successfully created a new test");
-		return new ModelAndView("tests/form", "test", test);
+		return new ModelAndView("redirect:/tests", "test", "test");
 	}
 
 	@RequestMapping("foo")
