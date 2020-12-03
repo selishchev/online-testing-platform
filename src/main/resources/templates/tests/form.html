@@ -22,20 +22,17 @@
       </p>
     </div>
     <label for="testName"></label>
-    <input type="text" placeholder="Название теста" id="testName"
+    <input type="text" placeholder="Test name" id="testName"
            th:field="*{testName}"
            th:class="${#fields.hasErrors('testName')} ? 'field-error'"/>
-    <form action="" method="post">
-      <label for="question"></label>
-      <input type="text" placeholder="Текст вопроса" id="question"
-             th:field="*{question}"
-             th:class="${#fields.hasErrors('question')} ? 'field-error'"/>
-      <input type="submit" value="Add"></input>
-    </form>
-    <label for="questions"></label>
-    <textarea placeholder="В тесте пока нет вопросов" id="questions"></textarea>
+    <label for="question"></label>
+    <input type="text" placeholder="Question" id="question"
+           th:field="*{question}"
+           th:class="${#fields.hasErrors('question')} ? 'field-error'"/>
+    <input type="submit" value="Add"></input>
+
     <div class="form-actions">
-      <input type="reset" value="Cancel"/>
+      <input type="reset" value="Cancel" onclick="location.href='/tests';"/>
       <input type="submit" value="Create"/>
     </div>
   </form>
