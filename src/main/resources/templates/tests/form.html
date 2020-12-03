@@ -6,7 +6,7 @@
   <title>Tests : Create</title>
 </head>
 <body>
-<h1 layout:fragment="header">Tests : Create</h1>
+<h1 layout:fragment="header"></h1>
 <div layout:fragment="content"
      class="container">
   <form id="testForm"
@@ -20,11 +20,6 @@
          th:text="${error}">
         Validation error
       </p>
-    </div>
-    <div class="pull-right">
-      <a th:href="@{/}" href="tests.html">
-        Tests
-      </a>
     </div>
     <label for="testName"></label>
     <input type="text" placeholder="Название теста" id="testName"

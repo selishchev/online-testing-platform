@@ -1,6 +1,7 @@
 .navbar-inner {
     background-color: #FFBA00;
     background-image: none;
+    min-height: 50px;
 }
 
 .myNavbar {
@@ -9,4 +10,11 @@
 }
 .navbar .nav>li>a {
     color: #000000;
+}
+table {
+    max-width: 100%;
+    background-color: #FFFFFF;
+}
+.table {
+    margin-top: 50px;
 }
