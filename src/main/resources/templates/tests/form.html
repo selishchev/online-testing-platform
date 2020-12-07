@@ -32,9 +32,12 @@
            th:class="${#fields.hasErrors('question')} ? 'field-error'"/>
     <input type="submit" value="Add"/>
   </form>
-  <div th:each="question : ${questions}"
-     th:text="${question.question}">
+  <div class="d-flex justify-content-between" th:each="question : ${questions}">
+    <span th:text="${question.question}"></span>
+    <a class="btn btn-danger btn-sm"
+       th:href="@{removeQuestion/(testId=${test.id},questionId=${question.id})}">Remove</a>
   </div>
+
 </div>
 </body>
 </html>

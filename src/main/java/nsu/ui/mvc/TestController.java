@@ -88,16 +88,16 @@ public class TestController {
 		DatabaseRepository.saveQuestion(test.getQuestion(), test.getId());
 		return new ModelAndView("redirect:/create/" + test.getId());
 	}
-	@RequestMapping(value = "removeQuestion", method = RequestMethod.POST)
-	public ModelAndView removeQuestion(@ModelAttribute RemoveQuestionRequest req, BindingResult result,
-									RedirectAttributes redirect) throws SQLException {
-		DatabaseRepository.removeQuestion(req.getQuestion_id());
-		return new ModelAndView("redirect:/create/" + req.getTest_id());
+	@RequestMapping(value = "create/removeQuestion", params = {"testId", "questionId"}, method = RequestMethod.GET)
+	public ModelAndView removeQuestion(@RequestParam(value = "testId") Long testId,
+									   @RequestParam(value = "questionId") Long questionId) {
+
+		DatabaseRepository.removeQuestion(questionId);
+		return new ModelAndView("redirect:/create/" + testId);
 	}
 
 	@RequestMapping("foo")
 	public String foo() {
 		throw new RuntimeException("Expected exception in controller");
 	}
-
 }
