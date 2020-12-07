@@ -25,6 +25,6 @@ public interface TestRepository {
 
 	Tests save(Tests test) throws SQLException;
 
-	Tests findTest(Long id);
+	ArrayList<Questions> findTest(Long id);
 
 }

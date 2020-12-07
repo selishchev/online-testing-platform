@@ -12,6 +12,9 @@
     color: #000000;
     margin-bottom: 70px;
 }
+.testName {
+    background: white;
+}
 .navbar .nav>li>a {
     color: #000000;
     padding-top: 25px;

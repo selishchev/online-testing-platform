@@ -9,8 +9,11 @@
 <h1 layout:fragment="header"></h1>
 <div layout:fragment="content"
      class="container">
+  <div class="mw-100 testName">
+    Test name: <span th:text="${test.testName}">Test name</span>
+  </div>
   <form id="testForm"
-        th:action="@{/create}"
+        th:action="@{/addQuestion}"
         th:object="${test}"
         action="#"
         method="post">
@@ -21,29 +24,17 @@
         Validation error
       </p>
     </div>
-
-    <label for="testName">Test name</label>
-    <input type="text" placeholder="Test name" id="testName"
-           th:field="*{testName}"
-           th:class="${#fields.hasErrors('testName')} ? 'field-error'"/>
+    <input type="hidden" id="testId"
+           th:field="*{id}" th:value="${test.id}"/>
     <label for="question">Question</label>
     <input type="text" placeholder="Question" id="question"
            th:field="*{question}"
            th:class="${#fields.hasErrors('question')} ? 'field-error'"/>
-    <div class="form-actions">
-      <input type="submit" value="Add"/>
-    </div>
-
-    <p th:each="question : ${questions}"
-       th:text="${question}">
-    </p>
+    <input type="submit" value="Add"/>
   </form>
-  <form>
-    <div>
-      <input type="reset" value="Cancel" onclick="location.href='/tests';"/>
-      <input type="submit" value="Create"/>
-    </div>
-  </form>
+  <div th:each="question : ${questions}"
+     th:text="${question.question}">
+  </div>
 </div>
 </body>
 </html>

@@ -18,7 +18,6 @@ public class Tests {
         return this.listOfQuestions;
     }
 
-    @NotEmpty(message = "Question is required.")
     private String question;
 
     public void setQuestion(String question){

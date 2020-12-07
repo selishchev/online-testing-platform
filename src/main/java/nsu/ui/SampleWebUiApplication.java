@@ -35,21 +35,6 @@ public class SampleWebUiApplication {
 		return new DatabaseRepository();
 	}
 
-	@Bean
-	public Converter<String, Tests> testConverter() {
-		return new Converter<String, Tests>() {
-			@Override
-			public Tests convert(String id) {
-				try {
-					return testRepository().findTest(Long.valueOf(id));
-				} catch (SQLException | ClassNotFoundException throwables) {
-					throwables.printStackTrace();
-				}
-				return null;
-			}
-		};
-	}
-
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(SampleWebUiApplication.class, args);
 	}

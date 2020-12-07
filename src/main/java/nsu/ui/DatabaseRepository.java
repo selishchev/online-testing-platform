@@ -2,13 +2,11 @@ package nsu.ui;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
 
 public class DatabaseRepository implements TestRepository {
 
     private static Connection connection;
-    public static final String url = "jdbc:mysql://localhost:3306/platform";
+    public static final String url = "jdbc:mysql://localhost:3307/platform";
     public static final String user = "root";
     public static final String pwd = "654";
     private static Statement statement;
@@ -43,18 +41,18 @@ public class DatabaseRepository implements TestRepository {
         Tests test = null;
 
         try {
+
             // Получаем список всех названий тестов
-            String selectNames = "SELECT test_name from test";
+            String selectNames = "SELECT test_name from tests";
             result = statement.executeQuery(selectNames);
             while (result.next()) {
-                if (!testNames.contains(result.getString(1))) {
-                    testNames.add(result.getString(1));
-                }
+                testNames.add(result.getString(1));
+
             }
 
             // Формирование объектов Tests
             for (String testName : testNames) {
-                String selectForTest = "SELECT id from test WHERE test_name = '" + testName + "'";
+                String selectForTest = "SELECT id from tests WHERE test_name = '" + testName + "'";
                 result = statement.executeQuery(selectForTest);
                 while (result.next()) {
                     test = new Tests();
@@ -62,11 +60,10 @@ public class DatabaseRepository implements TestRepository {
                     test.setTestName(testName);
                 }
                 if (test != null) {
-                    String selectQuestions = "SELECT question from test WHERE test_name = '" + testName + "'";
+                    String selectQuestions = "SELECT question from questions WHERE test_id= " + test.getId();
                     result = statement.executeQuery(selectQuestions);
                     while (result.next()) {
                         test.setQuestionToList(result.getString(1));
-                        test.setQuestion(result.getString(1));
                     }
                     tests.add(test);
                 }
@@ -79,30 +76,71 @@ public class DatabaseRepository implements TestRepository {
 
     @Override
     public Tests save(Tests test) {
-        String insertSql = "INSERT INTO test(test_name, question) values('" + test.getTestName() + "', '"
-                + test.getQuestion() + "')";
+        String insertSql = "INSERT INTO tests(teacher_id, test_name) values(1, '" + test.getTestName() + "')";
         try {
             statement.executeUpdate(insertSql);
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String selectSql = "select id from tests where test_name = '" + test.getTestName() + "'";
+        try {
+            result = statement.executeQuery(selectSql);
+            while (result.next()) {
+                test.setId(result.getLong(1));
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return test;
     }
 
     @Override
-    public Tests findTest(Long id) {
-        String query = String.format("SELECT * FROM test WHERE id = '%s'", id);
-        Tests test = new Tests();
-        try (Statement st = connection.createStatement();
-             ResultSet rs = st.executeQuery(query)) {
-            while (rs.next()) {
-                test.setId(rs.getLong(1));
-                test.setTestName(rs.getString(2));
-                test.setQuestion(rs.getString(3));
+    public ArrayList<Questions> findTest(Long id) {
+        ArrayList<Questions> questions = new ArrayList<Questions>();
+        String selectSql = "select * from questions where test_id = " + id;
+        try {
+            result = statement.executeQuery(selectSql);
+            while (result.next()) {
+                Questions question = new Questions();
+                question.setId(result.getLong(1));
+                question.setTest_id(result.getLong(2));
+                question.setQuestion(result.getString(3));
+                questions.add(question);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return questions;
+    }
+    public static Tests getTestById(Long id) {
+        Tests test = new Tests();
+        String selectSql = "select * from tests where id = " + id;
+        try {
+            result = statement.executeQuery(selectSql);
+            while (result.next()) {
+                test.setId(result.getLong(1));
+                test.setTestName(result.getString(3));;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return test;
+    }
+    public static void saveQuestion(String question, Long id){
+        String insertSql = "INSERT INTO questions(test_id, question) values("+id+", '"
+                + question + "')";
+        try {
+            statement.executeUpdate(insertSql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void removeQuestion(Long id){
+        String deleteSql = "DELETE FROM questions where id = " + id;
+        try {
+            statement.executeUpdate(deleteSql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

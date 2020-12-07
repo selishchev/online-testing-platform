@@ -15,18 +15,15 @@ package nsu.ui.mvc;
 
 import javax.validation.Valid;
 
-import nsu.ui.Tests;
+import nsu.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import nsu.ui.TestRepository;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -52,37 +49,50 @@ public class TestController {
 		return new ModelAndView("tests/list", "tests", tests);
 	}
 
-	@RequestMapping(value = "create", method = RequestMethod.GET)
-	public ModelAndView createForm(@ModelAttribute ArrayList<String> questions, Tests test) {
-		System.out.println(questions);
+	@RequestMapping(value = "tests/test", method = RequestMethod.GET)
+	public ModelAndView createFormTest(@ModelAttribute Tests test) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("tests/form");
+		mav.setViewName("tests/test");
 		mav.addObject("test", test);
-		mav.addObject("questions", questions);
-		this.questions = new ArrayList<>();
 		return mav;
-
-		//return new ModelAndView("tests/form", "questions", questions);
+	}
+	@RequestMapping(value = "tests/test", method = RequestMethod.POST)
+	public ModelAndView createTest(@ModelAttribute Tests test) {
+		try {
+			test = this.testRepository.save(test);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/create/" + test.getId());
+		return mav;
 	}
 
-	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public ModelAndView create(@Valid Tests test, BindingResult result,
-			RedirectAttributes redirect) throws SQLException {
-		if (result.hasErrors()) {
-			return new ModelAndView("tests/form", "formErrors", result.getAllErrors());
-		}
+	@RequestMapping(value = "create/{id}", method = RequestMethod.GET)
+	public ModelAndView createForm(@PathVariable("id") Long id) {
 
-		questions.add(test.getQuestion());
-
+		ArrayList<Questions> questions = this.testRepository.findTest(id);
+		Tests test = DatabaseRepository.getTestById(id);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("tests/form");
 		mav.addObject("test", test);
 		mav.addObject("questions", questions);
 		return mav;
 
-		//test = this.testRepository.save(test);
-		//redirect.addFlashAttribute("globalMessage", "Successfully created a new test");
-		//return new ModelAndView("redirect:/create", "listOfTests", listOfTests);
+	}
+
+	@RequestMapping(value = "addQuestion", method = RequestMethod.POST)
+	public ModelAndView addQuestion(@Valid Tests test, BindingResult result,
+			RedirectAttributes redirect) throws SQLException {
+		DatabaseRepository.saveQuestion(test.getQuestion(), test.getId());
+		return new ModelAndView("redirect:/create/" + test.getId());
+	}
+	@RequestMapping(value = "removeQuestion", method = RequestMethod.POST)
+	public ModelAndView removeQuestion(@ModelAttribute RemoveQuestionRequest req, BindingResult result,
+									RedirectAttributes redirect) throws SQLException {
+		DatabaseRepository.removeQuestion(req.getQuestion_id());
+		return new ModelAndView("redirect:/create/" + req.getTest_id());
 	}
 
 	@RequestMapping("foo")
