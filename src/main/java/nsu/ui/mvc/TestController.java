@@ -30,6 +30,7 @@ import nsu.ui.TestRepository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Rob Winch
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 @RequestMapping("/")
 public class TestController {
 	private final TestRepository testRepository;
+	private ArrayList<String> questions = new ArrayList<>();
 
 	@Autowired
 	public TestController(TestRepository testRepository) {
@@ -50,25 +52,37 @@ public class TestController {
 		return new ModelAndView("tests/list", "tests", tests);
 	}
 
-	@RequestMapping("{id}")
-	public ModelAndView view(@PathVariable("id") Tests test) {
-		return new ModelAndView("tests/view", "test", test);
+	@RequestMapping(value = "create", method = RequestMethod.GET)
+	public ModelAndView createForm(@ModelAttribute ArrayList<String> questions, Tests test) {
+		System.out.println(questions);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("tests/form");
+		mav.addObject("test", test);
+		mav.addObject("questions", questions);
+		this.questions = new ArrayList<>();
+		return mav;
+
+		//return new ModelAndView("tests/form", "questions", questions);
 	}
 
-	@RequestMapping(params = "create", method = RequestMethod.GET)
-	public ModelAndView createForm(@ModelAttribute Tests test) {
-		return new ModelAndView("tests/form", "test", test);
-	}
-
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public ModelAndView create(@Valid Tests test, BindingResult result,
 			RedirectAttributes redirect) throws SQLException {
 		if (result.hasErrors()) {
 			return new ModelAndView("tests/form", "formErrors", result.getAllErrors());
 		}
-		test = this.testRepository.save(test);
-		redirect.addFlashAttribute("globalMessage", "Successfully created a new test");
-		return new ModelAndView("redirect:/tests", "test", "test");
+
+		questions.add(test.getQuestion());
+
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("tests/form");
+		mav.addObject("test", test);
+		mav.addObject("questions", questions);
+		return mav;
+
+		//test = this.testRepository.save(test);
+		//redirect.addFlashAttribute("globalMessage", "Successfully created a new test");
+		//return new ModelAndView("redirect:/create", "listOfTests", listOfTests);
 	}
 
 	@RequestMapping("foo")

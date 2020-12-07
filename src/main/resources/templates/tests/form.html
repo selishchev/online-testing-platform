@@ -10,7 +10,7 @@
 <div layout:fragment="content"
      class="container">
   <form id="testForm"
-        th:action="@{/(create)}"
+        th:action="@{/create}"
         th:object="${test}"
         action="#"
         method="post">
@@ -21,17 +21,25 @@
         Validation error
       </p>
     </div>
-    <label for="testName"></label>
+
+    <label for="testName">Test name</label>
     <input type="text" placeholder="Test name" id="testName"
            th:field="*{testName}"
            th:class="${#fields.hasErrors('testName')} ? 'field-error'"/>
-    <label for="question"></label>
+    <label for="question">Question</label>
     <input type="text" placeholder="Question" id="question"
            th:field="*{question}"
            th:class="${#fields.hasErrors('question')} ? 'field-error'"/>
-    <input type="submit" value="Add"></input>
-
     <div class="form-actions">
+      <input type="submit" value="Add"/>
+    </div>
+
+    <p th:each="question : ${questions}"
+       th:text="${question}">
+    </p>
+  </form>
+  <form>
+    <div>
       <input type="reset" value="Cancel" onclick="location.href='/tests';"/>
       <input type="submit" value="Create"/>
     </div>

@@ -10,7 +10,7 @@ public class DatabaseRepository implements TestRepository {
     private static Connection connection;
     public static final String url = "jdbc:mysql://localhost:3306/platform";
     public static final String user = "root";
-    public static final String pwd = "aigerim";
+    public static final String pwd = "654";
     private static Statement statement;
     private static ResultSet result;
 
@@ -76,7 +76,6 @@ public class DatabaseRepository implements TestRepository {
         }
         return tests;
     }
-
 
     @Override
     public Tests save(Tests test) {
