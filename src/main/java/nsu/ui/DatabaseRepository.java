@@ -6,9 +6,9 @@ import java.util.HashMap;
 public class DatabaseRepository implements TestRepository {
 
     private static Connection connection;
-    public static final String url = "jdbc:mysql://localhost:3307/platform";
+    public static final String url = "jdbc:mysql://localhost:3306/platform";
     public static final String user = "root";
-    public static final String pwd = "654";
+    public static final String pwd = "32232";
     private static Statement statement;
     private static ResultSet result;
 
@@ -37,7 +37,7 @@ public class DatabaseRepository implements TestRepository {
         ArrayList<Tests> tests = new ArrayList<>();
         ArrayList<String> testNames = new ArrayList<>();
         ArrayList<String> testQuestions = new ArrayList<>();
-        HashMap<Long, Teachers> testTeacher = new HashMap<>();
+        HashMap<Long, User> testTeacher = new HashMap<>();
         Tests test = null;
 
         try {

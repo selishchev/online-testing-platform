@@ -103,6 +103,12 @@ public class TestController {
 		return new ModelAndView("redirect:/tests");
 	}
 
+	@RequestMapping("registration")
+	public ModelAndView registration() {
+		User user = new User();
+		return new ModelAndView("tests/registration", "user", user);
+	}
+
 	@RequestMapping("foo")
 	public String foo() {
 		throw new RuntimeException("Expected exception in controller");

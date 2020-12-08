@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Tests : Create</title>
+</head>
+<body>
+<h1 layout:fragment="header"></h1>
+<div layout:fragment="content"
+     class="container">
+    <div class="mw-100 testName">
+        Registration
+    </div>
+    <form id="userForm"
+          th:action="@{/tests}"
+          th:object="${user}"
+          action="#"
+          method="post">
+        <div th:if="${#fields.hasErrors('*')}"
+             class="alert alert-error">
+            <p th:each="error : ${#fields.errors('*')}"
+               th:text="${error}">
+                Validation error
+            </p>
+        </div>
+        <label for="firstName">First Name</label>
+        <input type="text" placeholder="firstName" id="firstName"
+               th:field="*{firstName}"
+               th:class="${#fields.hasErrors('firstName')} ? 'field-error'"/>
+        <label for="secondName">Second Name</label>
+        <input type="text" placeholder="secondName" id="secondName"
+               th:field="*{secondName}"
+               th:class="${#fields.hasErrors('secondName')} ? 'field-error'"/>
+        <label for="lastName">Last Name</label>
+        <input type="text" placeholder="firstName" id="lastName"
+               th:field="*{lastName}"
+               th:class="${#fields.hasErrors('lastName')} ? 'field-error'"/>
+        <label for="email">Email</label>
+        <input type="text" placeholder="email" id="email"
+               th:field="*{email}"
+               th:class="${#fields.hasErrors('email')} ? 'field-error'"/>
+        <label for="password">Password</label>
+        <input type="password" placeholder="password" id="password"
+               th:field="*{password}"
+               th:class="${#fields.hasErrors('password')} ? 'field-error'"/>
+        <label for="isTeacher">Teacher</label>
+            <input type="radio" name="isTeacher" id="isTeacher"
+                   th:value="true"
+                   th:field="*{isTeacher}"
+                   th:class="${#fields.hasErrors('isTeacher')} ? 'field-error'"/>
+        <label for="isTeacher2">Student</label>
+        <input type="radio" name="isTeacher" id="isTeacher2"/>
+        <input type="submit" value="Login"/>
+    </form>
+</div>
+</body>
+</html>

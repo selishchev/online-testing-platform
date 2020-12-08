@@ -1,7 +1,7 @@
 package nsu.ui;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Teachers {
+public class User {
 
     private Long id;
 
@@ -13,6 +13,36 @@ public class Teachers {
 
     @NotEmpty(message = "Last Name is required.")
     private String lastName;
+
+    private String email;
+
+    private String password;
+
+    private boolean isTeacher;
+
+    public boolean getIsTeacher() {
+        return isTeacher;
+    }
+
+    public void setIsTeacher(boolean isTeacher) {
+        this.isTeacher = isTeacher;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Long getId() {
         return id;

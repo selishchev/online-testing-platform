@@ -8,7 +8,7 @@ public class Tests {
 
     public ArrayList<String> listOfQuestions = new ArrayList<>();
 
-    private Teachers teacher;
+    private User user;
 
     public void setListOfQuestions(ArrayList<String> listOfQuestions) {
         this.listOfQuestions = listOfQuestions;
@@ -28,11 +28,12 @@ public class Tests {
         return this.question;
     }
 
-    public void setTeacher(Teachers teacher){
-        this.teacher = teacher;
+    public void setUser(User user){
+        this.user = user;
     }
-    public Teachers getTeacher(){
-        return this.teacher;
+
+    public User getUser(){
+        return this.user;
     }
 
     @NotEmpty(message = "Test Name is required.")
