@@ -88,12 +88,19 @@ public class TestController {
 		DatabaseRepository.saveQuestion(test.getQuestion(), test.getId());
 		return new ModelAndView("redirect:/create/" + test.getId());
 	}
+
 	@RequestMapping(value = "create/removeQuestion", params = {"testId", "questionId"}, method = RequestMethod.GET)
 	public ModelAndView removeQuestion(@RequestParam(value = "testId") Long testId,
 									   @RequestParam(value = "questionId") Long questionId) {
 
 		DatabaseRepository.removeQuestion(questionId);
 		return new ModelAndView("redirect:/create/" + testId);
+	}
+
+	@RequestMapping(value = "create/deleteTest", params = {"testId"}, method = RequestMethod.GET)
+	public ModelAndView deleteTest(@RequestParam(value = "testId") Long testId){
+		DatabaseRepository.deleteTest(testId);
+		return new ModelAndView("redirect:/tests");
 	}
 
 	@RequestMapping("foo")

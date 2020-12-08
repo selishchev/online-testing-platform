@@ -143,4 +143,12 @@ public class DatabaseRepository implements TestRepository {
             e.printStackTrace();
         }
     }
+    public static void deleteTest(Long id){
+        String deleteSql = "DELETE FROM tests where id = " + id;
+        try {
+            statement.executeUpdate(deleteSql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
