@@ -43,10 +43,16 @@ public class TestController {
 		this.testRepository = testRepository;
 	}
 
-	@RequestMapping("tests")
-	public ModelAndView list() {
+
+	@RequestMapping("{id}/tests")
+	public ModelAndView list(@PathVariable("id") Long id) {
 		ArrayList<Tests> tests = this.testRepository.findAll();
-		return new ModelAndView("tests/list", "tests", tests);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("tests", tests);
+		User user = DatabaseRepository.findUserById(id);
+		mav.addObject("user", user);
+		mav.setViewName("tests/list");
+		return mav;
 	}
 
 	@RequestMapping(value = "tests/test", method = RequestMethod.GET)
@@ -103,7 +109,7 @@ public class TestController {
 		return new ModelAndView("redirect:/tests");
 	}
 
-	@RequestMapping(value = "tests/registration", method = RequestMethod.GET)
+	@RequestMapping(value = "registration", method = RequestMethod.GET)
 	public ModelAndView registration(@ModelAttribute User user) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("tests/registration");
@@ -111,13 +117,13 @@ public class TestController {
 		return mav;
 	}
 
-	@RequestMapping(value = "tests/registration", method = RequestMethod.POST)
+	@RequestMapping(value = "registration", method = RequestMethod.POST)
 	public ModelAndView addUser(@ModelAttribute User user) {
 		ModelAndView mav = new ModelAndView();
 			// if (!check) {mav.addAttribute("usernameError", "Пользователь с таким именем уже существует");}
-		mav.setViewName("redirect:/tests");
+		User currentUser = DatabaseRepository.saveUser(user);
+		mav.setViewName("redirect:/" + currentUser.getId() + "/tests");
 		mav.addObject("user", user);
-		DatabaseRepository.saveUser(user);
 		return mav;
 	}
 

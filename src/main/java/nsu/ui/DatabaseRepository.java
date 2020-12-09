@@ -6,9 +6,9 @@ import java.util.HashMap;
 public class DatabaseRepository implements TestRepository {
 
     private static Connection connection;
-    public static final String url = "jdbc:mysql://localhost:3306/platform";
+    public static final String url = "jdbc:mysql://localhost:3307/platform";
     public static final String user = "root";
-    public static final String pwd = "32232";
+    public static final String pwd = "654";
     private static Statement statement;
     private static ResultSet result;
 
@@ -156,28 +156,23 @@ public class DatabaseRepository implements TestRepository {
         User user = new User();
         String selectSql = "select * from user where email = '" + email + "'";
         try {
-            statement.executeQuery(selectSql);
-            if (result.next()) {
-                while (result.next()) {
-                    user.setId(result.getLong(1));
-                    user.setIsTeacher(result.getBoolean(2));
-                    user.setFirstName(result.getString(3));
-                    user.setSecondName(result.getString(4));
-                    user.setLastName(result.getString(5));
-                    user.setPassword(result.getString(6));
-                    user.setEmail(result.getString(7));
+            result = statement.executeQuery(selectSql);
+            while (result.next()) {
+                user.setId(result.getLong(1));
+                user.setIsTeacher(result.getBoolean(2));
+                user.setFirstName(result.getString(3));
+                user.setSecondName(result.getString(4));
+                user.setLastName(result.getString(5));
+                user.setPassword(result.getString(6));
+                user.setEmail(result.getString(7));
                 }
-            }
-            else {
-                return null;
-            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return user;
     }
 
-    public static void saveUser(User user) {
+    public static User saveUser(User user) {
         int isTeacher;
         if (user.getIsTeacher()) {
             isTeacher = 1;
@@ -185,7 +180,7 @@ public class DatabaseRepository implements TestRepository {
         else {
             isTeacher = 0;
         }
-        System.out.println(user.getFirstName());
+
         String insertSql = "INSERT INTO user(is_teacher, first_name, second_name, last_name, password, email) " +
                 "values(" + isTeacher + ", '" + user.getFirstName() + "', '" + user.getSecondName() + "', " +
                 "'" + user.getLastName() + "', " + "'" + user.getPassword() + "', " + "'" + user.getEmail() + "')";
@@ -194,6 +189,8 @@ public class DatabaseRepository implements TestRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return DatabaseRepository.findByEmail(user.getEmail());
     }
 
     public static boolean checkAndSaveUser(User user) {
@@ -205,5 +202,23 @@ public class DatabaseRepository implements TestRepository {
         DatabaseRepository.saveUser(user);
         return true;
     }
-
+    public static User findUserById(Long id) {
+        User user = new User();
+        String selectSql = "SELECT * from user where id = " + id;
+        try {
+            result = statement.executeQuery(selectSql);
+            while (result.next()) {
+                user.setId(result.getLong(1));
+                user.setIsTeacher(result.getBoolean(2));
+                user.setFirstName(result.getString(3));
+                user.setSecondName(result.getString(4));
+                user.setLastName(result.getString(5));
+                user.setPassword(result.getString(6));
+                user.setEmail(result.getString(7));
+                }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return user;
+    }
 }
