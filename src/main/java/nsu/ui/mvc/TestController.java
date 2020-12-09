@@ -109,6 +109,12 @@ public class TestController {
 		return new ModelAndView("tests/registration", "user", user);
 	}
 
+	@RequestMapping("login")
+	public ModelAndView login() {
+		User user = new User();
+		return new ModelAndView("tests/login", "user", user);
+	}
+
 	@RequestMapping("foo")
 	public String foo() {
 		throw new RuntimeException("Expected exception in controller");
