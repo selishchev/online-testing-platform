@@ -13,7 +13,7 @@
         Registration
     </div>
     <form id="userForm"
-          th:action="@{/tests}"
+          th:action="@{/tests/registration}"
           th:object="${user}"
           action="#"
           method="post">
@@ -50,8 +50,13 @@
                    th:field="*{isTeacher}"
                    th:class="${#fields.hasErrors('isTeacher')} ? 'field-error'"/>
         <label for="isTeacher2">Student</label>
-        <input type="radio" name="isTeacher" id="isTeacher2"/>
+        <input type="radio" name="isTeacher" id="isTeacher2"
+               th:value="false"
+               th:field="*{isTeacher}"
+               th:class="${#fields.hasErrors('isTeacher')} ? 'field-error'"/>
+        <div class="form-actions">
         <input type="submit" value="Login"/>
+        </div>
     </form>
 </div>
 </body>

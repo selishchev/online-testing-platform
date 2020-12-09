@@ -151,4 +151,59 @@ public class DatabaseRepository implements TestRepository {
             e.printStackTrace();
         }
     }
+
+    public static User findByEmail(String email) {
+        User user = new User();
+        String selectSql = "select * from user where email = '" + email + "'";
+        try {
+            statement.executeQuery(selectSql);
+            if (result.next()) {
+                while (result.next()) {
+                    user.setId(result.getLong(1));
+                    user.setIsTeacher(result.getBoolean(2));
+                    user.setFirstName(result.getString(3));
+                    user.setSecondName(result.getString(4));
+                    user.setLastName(result.getString(5));
+                    user.setPassword(result.getString(6));
+                    user.setEmail(result.getString(7));
+                }
+            }
+            else {
+                return null;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return user;
+    }
+
+    public static void saveUser(User user) {
+        int isTeacher;
+        if (user.getIsTeacher()) {
+            isTeacher = 1;
+        }
+        else {
+            isTeacher = 0;
+        }
+        System.out.println(user.getFirstName());
+        String insertSql = "INSERT INTO user(is_teacher, first_name, second_name, last_name, password, email) " +
+                "values(" + isTeacher + ", '" + user.getFirstName() + "', '" + user.getSecondName() + "', " +
+                "'" + user.getLastName() + "', " + "'" + user.getPassword() + "', " + "'" + user.getEmail() + "')";
+        try {
+            statement.executeUpdate(insertSql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean checkAndSaveUser(User user) {
+        User userFromDB = DatabaseRepository.findByEmail(user.getEmail());
+
+        if (userFromDB == null) {
+            return false;
+        }
+        DatabaseRepository.saveUser(user);
+        return true;
+    }
+
 }

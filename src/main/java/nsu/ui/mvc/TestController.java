@@ -103,13 +103,25 @@ public class TestController {
 		return new ModelAndView("redirect:/tests");
 	}
 
-	@RequestMapping("registration")
-	public ModelAndView registration() {
-		User user = new User();
-		return new ModelAndView("tests/registration", "user", user);
+	@RequestMapping(value = "tests/registration", method = RequestMethod.GET)
+	public ModelAndView registration(@ModelAttribute User user) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("tests/registration");
+		mav.addObject("user", user);
+		return mav;
 	}
 
-	@RequestMapping("login")
+	@RequestMapping(value = "tests/registration", method = RequestMethod.POST)
+	public ModelAndView addUser(@ModelAttribute User user) {
+		ModelAndView mav = new ModelAndView();
+			// if (!check) {mav.addAttribute("usernameError", "Пользователь с таким именем уже существует");}
+		mav.setViewName("redirect:/tests");
+		mav.addObject("user", user);
+		DatabaseRepository.saveUser(user);
+		return mav;
+	}
+
+	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public ModelAndView login() {
 		User user = new User();
 		return new ModelAndView("tests/login", "user", user);
