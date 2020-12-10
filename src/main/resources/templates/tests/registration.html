@@ -13,7 +13,7 @@
         Registration
     </div>
     <form id="userForm"
-          th:action="@{/tests/registration}"
+          th:action="@{/registration}"
           th:object="${user}"
           action="#"
           method="post">
@@ -24,24 +24,28 @@
                 Validation error
             </p>
         </div>
+        <div th:if="${userError != null}"
+                class="alert alert-error">
+            <p th:text="${userError}"></p>
+        </div>
         <label for="firstName">First Name</label>
-        <input type="text" placeholder="firstName" id="firstName"
+        <input type="text" required="" placeholder="firstName" id="firstName"
                th:field="*{firstName}"
                th:class="${#fields.hasErrors('firstName')} ? 'field-error'"/>
         <label for="secondName">Second Name</label>
-        <input type="text" placeholder="secondName" id="secondName"
+        <input type="text" required="" placeholder="secondName" id="secondName"
                th:field="*{secondName}"
                th:class="${#fields.hasErrors('secondName')} ? 'field-error'"/>
         <label for="lastName">Last Name</label>
-        <input type="text" placeholder="firstName" id="lastName"
+        <input type="text" required="" placeholder="firstName" id="lastName"
                th:field="*{lastName}"
                th:class="${#fields.hasErrors('lastName')} ? 'field-error'"/>
         <label for="email">Email</label>
-        <input type="text" placeholder="email" id="email"
+        <input type="text" required="" placeholder="email" id="email"
                th:field="*{email}"
                th:class="${#fields.hasErrors('email')} ? 'field-error'"/>
         <label for="password">Password</label>
-        <input type="password" placeholder="password" id="password"
+        <input type="password" required="" placeholder="password" id="password"
                th:field="*{password}"
                th:class="${#fields.hasErrors('password')} ? 'field-error'"/>
         <label for="isTeacher">Teacher</label>

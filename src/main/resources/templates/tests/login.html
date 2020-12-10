@@ -12,8 +12,8 @@
     <div class="mw-100 testName">
         Login
     </div>
-    <form id="userForm"
-          th:action="@{/tests}"
+    <form id="loginForm"
+          th:action="@{/login}"
           th:object="${user}"
           action="#"
           method="post">
@@ -24,15 +24,25 @@
                 Validation error
             </p>
         </div>
+        <div th:if="${passwordError != null}"
+             class="alert alert-error">
+            <p th:text="${passwordError}"></p>
+        </div>
+        <div th:if="${emailError != null}"
+             class="alert alert-error">
+            <p th:text="${emailError}"></p>
+        </div>
         <label for="email">Email</label>
-        <input type="text" placeholder="email" id="email"
+        <input type="text" required="" placeholder="email" id="email"
                th:field="*{email}"
                th:class="${#fields.hasErrors('email')} ? 'field-error'"/>
         <label for="password">Password</label>
-        <input type="password" placeholder="password" id="password"
+        <input type="password" required="" placeholder="password" id="password"
                th:field="*{password}"
                th:class="${#fields.hasErrors('password')} ? 'field-error'"/>
-        <input type="submit" value="Login"/>
+        <div class="form-actions">
+            <input type="submit" value="Login"/>
+        </div>
     </form>
 </div>
 </body>
