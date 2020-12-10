@@ -46,10 +46,17 @@ public class TestController {
 
 	@RequestMapping("{id}/tests")
 	public ModelAndView list(@PathVariable("id") Long id) {
-		ArrayList<Tests> tests = this.testRepository.findAll();
+		ArrayList<Tests> tests = new ArrayList<>();
+		User user = DatabaseRepository.findUserById(id);
+		if(user.getIsTeacher()) {
+			tests = DatabaseRepository.findTeacherTests(id);
+		}
+		else {
+			tests = this.testRepository.findAll();
+		}
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("tests", tests);
-		User user = DatabaseRepository.findUserById(id);
 		mav.addObject("user", user);
 		mav.setViewName("tests/list");
 		return mav;

@@ -112,6 +112,7 @@ public class DatabaseRepository implements TestRepository {
         }
         return questions;
     }
+
     public static Tests getTestById(Long id) {
         Tests test = new Tests();
         String selectSql = "select * from tests where id = " + id;
@@ -119,15 +120,17 @@ public class DatabaseRepository implements TestRepository {
             result = statement.executeQuery(selectSql);
             while (result.next()) {
                 test.setId(result.getLong(1));
-                test.setTestName(result.getString(3));;
+                test.setTestName(result.getString(3));
+                ;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return test;
     }
-    public static void saveQuestion(String question, Long id){
-        String insertSql = "INSERT INTO questions(test_id, question) values("+id+", '"
+
+    public static void saveQuestion(String question, Long id) {
+        String insertSql = "INSERT INTO questions(test_id, question) values(" + id + ", '"
                 + question + "')";
         try {
             statement.executeUpdate(insertSql);
@@ -135,7 +138,8 @@ public class DatabaseRepository implements TestRepository {
             e.printStackTrace();
         }
     }
-    public static void removeQuestion(Long id){
+
+    public static void removeQuestion(Long id) {
         String deleteSql = "DELETE FROM questions where id = " + id;
         try {
             statement.executeUpdate(deleteSql);
@@ -143,7 +147,8 @@ public class DatabaseRepository implements TestRepository {
             e.printStackTrace();
         }
     }
-    public static void deleteTest(Long id){
+
+    public static void deleteTest(Long id) {
         String deleteSql = "DELETE FROM tests where id = " + id;
         try {
             statement.executeUpdate(deleteSql);
@@ -165,7 +170,7 @@ public class DatabaseRepository implements TestRepository {
                 user.setLastName(result.getString(5));
                 user.setPassword(result.getString(6));
                 user.setEmail(result.getString(7));
-                }
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -176,8 +181,7 @@ public class DatabaseRepository implements TestRepository {
         int isTeacher;
         if (user.getIsTeacher()) {
             isTeacher = 1;
-        }
-        else {
+        } else {
             isTeacher = 0;
         }
 
@@ -202,6 +206,7 @@ public class DatabaseRepository implements TestRepository {
         DatabaseRepository.saveUser(user);
         return true;
     }
+
     public static User findUserById(Long id) {
         User user = new User();
         String selectSql = "SELECT * from user where id = " + id;
@@ -215,10 +220,35 @@ public class DatabaseRepository implements TestRepository {
                 user.setLastName(result.getString(5));
                 user.setPassword(result.getString(6));
                 user.setEmail(result.getString(7));
-                }
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return user;
+    }
+
+    public static ArrayList<Tests> findTeacherTests(Long id) {
+        String selectSql = "SELECT * from tests where teacher_id = " + id;
+        ArrayList<Tests> tests = new ArrayList<>();
+        Tests test = new Tests();
+        try {
+            result = statement.executeQuery(selectSql);
+            while (result.next()) {
+                test = new Tests();
+                test.setId(result.getLong(1));
+                test.setTestName(result.getString(2));
+            }
+
+            String selectQuestions = "SELECT question from questions WHERE test_id= " + test.getId();
+            result = statement.executeQuery(selectQuestions);
+            while (result.next()) {
+                test.setQuestionToList(result.getString(1));
+            }
+            tests.add(test);
+
+        } catch (SQLException e) {
+            System.out.println("Ошибка Select");
+        }
+        return tests;
     }
 }
