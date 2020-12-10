@@ -5,17 +5,16 @@ public class User {
 
     private Long id;
 
-    @NotEmpty(message = "Name is required.")
     private String firstName;
 
-    @NotEmpty(message = "Second Name is required.")
     private String secondName;
 
-    @NotEmpty(message = "Last Name is required.")
     private String lastName;
 
+    @NotEmpty(message = "Email is required.")
     private String email;
 
+    @NotEmpty(message = "Password is required.")
     private String password;
 
     private boolean isTeacher;

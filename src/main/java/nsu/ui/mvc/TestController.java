@@ -46,10 +46,17 @@ public class TestController {
 
 	@RequestMapping("{id}/tests")
 	public ModelAndView list(@PathVariable("id") Long id) {
-		ArrayList<Tests> tests = this.testRepository.findAll();
+		ArrayList<Tests> tests = new ArrayList<>();
+		User user = DatabaseRepository.findUserById(id);
+		if(user.getIsTeacher()) {
+			tests = DatabaseRepository.findTeacherTests(id);
+		}
+		else {
+			tests = this.testRepository.findAll();
+		}
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("tests", tests);
-		User user = DatabaseRepository.findUserById(id);
 		mav.addObject("user", user);
 		mav.setViewName("tests/list");
 		return mav;
@@ -118,9 +125,16 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "registration", method = RequestMethod.POST)
-	public ModelAndView addUser(@ModelAttribute User user) {
+	public ModelAndView addUser(@ModelAttribute User user, @Valid User userForm, BindingResult result,
+								RedirectAttributes redirect) {
+		if (result.hasErrors()) {
+			return new ModelAndView("/registration", "formErrors", result.getAllErrors());
+		}
+		boolean checker = DatabaseRepository.checkUser(user);
+		if (checker) {
+			return new ModelAndView("/registration","userError", "Пользователь с таким именем уже существует");
+		}
 		ModelAndView mav = new ModelAndView();
-			// if (!check) {mav.addAttribute("usernameError", "Пользователь с таким именем уже существует");}
 		User currentUser = DatabaseRepository.saveUser(user);
 		mav.setViewName("redirect:/" + currentUser.getId() + "/tests");
 		mav.addObject("user", user);
@@ -128,9 +142,34 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public ModelAndView login() {
-		User user = new User();
-		return new ModelAndView("tests/login", "user", user);
+	public ModelAndView login(@ModelAttribute User user) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("tests/login");
+		mav.addObject("user", user);
+		return mav;
+	}
+
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public ModelAndView loginUser(@ModelAttribute User user, @Valid User loginForm, BindingResult result,
+								RedirectAttributes redirect) {
+		if (result.hasErrors()) {
+			return new ModelAndView("/login", "formErrors", result.getAllErrors());
+		}
+		if (DatabaseRepository.checkUser(user)) {
+			if (!DatabaseRepository.checkPassword(user)) {
+				return new ModelAndView("/login","passwordError", "Incorrect password");
+			}
+			else {
+				user = DatabaseRepository.findByEmail(user.getEmail());
+				ModelAndView mav = new ModelAndView();
+				mav.setViewName("redirect:/tests");
+				mav.addObject("user", user);
+				return mav;
+			}
+		}
+		else {
+			return new ModelAndView("tests/login","emailError", "Пользователя с таким именем не существует");
+		}
 	}
 
 	@RequestMapping("foo")

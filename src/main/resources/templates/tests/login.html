@@ -26,7 +26,7 @@
             <a href="registration.html" th:href="@{registration}">Registration</a></label>
             <form id="loginForm"
                   class="tab-form"
-                  th:action="@{/tests}"
+                  th:action="@{/login}"
                   th:object="${user}"
                   action="#"
                   method="post">
@@ -37,12 +37,20 @@
                         Validation error
                     </p>
                 </div>
+                <div th:if="${passwordError != null}"
+                     class="alert alert-error">
+                    <p th:text="${passwordError}"></p>
+                </div>
+                <div th:if="${emailError != null}"
+                     class="alert alert-error">
+                    <p th:text="${emailError}"></p>
+                </div>
                 <label for="email" class="label_text">Email</label>
-                <input type="text" placeholder="email" id="email"
+                <input type="text" required="" placeholder="email" id="email"
                        th:field="*{email}"
                        th:class="${#fields.hasErrors('email')} ? 'field-error'"/>
                 <label for="password" class="label_text">Password</label>
-                <input type="password" placeholder="password" id="password"
+                <input type="password" required="" placeholder="password" id="password"
                        th:field="*{password}"
                        th:class="${#fields.hasErrors('password')} ? 'field-error'"/>
                 <input type="submit" value="Login"/>

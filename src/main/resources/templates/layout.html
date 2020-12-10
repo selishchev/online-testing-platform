@@ -17,8 +17,10 @@
               <span th:text="${user.firstName}"></span>
               <span th:text="${user.secondName}"></span>
               <span th:if="${user.isTeacher}" th:text="${user.lastName}"></span>
-              <span th:if="${user.isTeacher}" th:text="(teacher)"></span>
-              <span th:if="${!user.isTeacher}" th:text="(student)"></span>
+              <div th:switch="${user.isTeacher}">
+                <span th:case="false" th:text="(student)"></span>
+                <span th:case="true" th:text="(teacher)"></span>
+              </div>
             </div>
             <div th:if="${user.isTeacher}" class="but">
               <a href="form.html" th:href="@{tests/test}">Create Test</a>
