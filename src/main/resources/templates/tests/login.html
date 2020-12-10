@@ -16,9 +16,16 @@
      class="container">
     <div class="log">
         <label title="Login">Login into system</label>
-        <label title="authorization">Authorization</label>
-        <label title="registration">Registration</label>
+
+        <input type="radio" id="tab-1" name="tabs" checked="checked"/>
+        <label class="tab" for="tab-1" title="authorization">
+            <a href="login.html" th:href="@{login}">Authorization</a></label>
+
+        <input type="radio" id="tab-2" name="tabs"/>
+        <label class="tab" for="tab-2" title="registration">
+            <a href="registration.html" th:href="@{registration}">Registration</a></label>
             <form id="loginForm"
+                  class="tab-form"
                   th:action="@{/tests}"
                   th:object="${user}"
                   action="#"
@@ -30,11 +37,11 @@
                         Validation error
                     </p>
                 </div>
-                <label for="email">Email</label>
+                <label for="email" class="label_text">Email</label>
                 <input type="text" placeholder="email" id="email"
                        th:field="*{email}"
                        th:class="${#fields.hasErrors('email')} ? 'field-error'"/>
-                <label for="password">Password</label>
+                <label for="password" class="label_text">Password</label>
                 <input type="password" placeholder="password" id="password"
                        th:field="*{password}"
                        th:class="${#fields.hasErrors('password')} ? 'field-error'"/>

@@ -26,11 +26,14 @@ table {
     margin-left: auto;
 }
 
+.container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
 .log {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: #FFED83;
     padding: 20px;
     margin-top: 20px;
@@ -45,11 +48,13 @@ label[class="label_text"] {
 
 input[type="submit"] {
     background: #ffffff;
-    display: block;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     line-height: 20px;
     padding: 5px;
     margin-top: 5px;
+    margin-left: 250px;
 }
 
 label[title="Login"] {
@@ -60,4 +65,41 @@ label[title="Login"] {
     text-transform: uppercase;
     font-size: 25px;
     margin-top: 10px;
+}
+
+.tab-form {
+    background-color: #FFED83;
+    text-align: center;
+    padding: 20px 10px 10px;
+}
+
+label.tab {
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    margin-left: 120px;
+}
+
+input[name="tabs"]:checked + label {
+    text-decoration: underline;
+}
+
+input[name="tabs"] {
+    display: none;
+}
+
+#tab-1:checked ~ #loginForm, #tab-2:checked ~ #userForm {
+    display: block;
+}
+
+input[id="btn"] {
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 20px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-left: 180px;
 }
