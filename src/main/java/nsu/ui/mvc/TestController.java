@@ -43,14 +43,22 @@ public class TestController {
 		this.testRepository = testRepository;
 	}
 
-	@RequestMapping("tests")
-	public ModelAndView list(@ModelAttribute User user) {
-		ArrayList<Tests> tests = this.testRepository.findAll();
-		System.out.println(user.getFirstName());
+
+	@RequestMapping("{id}/tests")
+	public ModelAndView list(@PathVariable("id") Long id) {
+		ArrayList<Tests> tests = new ArrayList<>();
+		User user = DatabaseRepository.findUserById(id);
+		if(user.getIsTeacher()) {
+			tests = DatabaseRepository.findTeacherTests(id);
+		}
+		else {
+			tests = this.testRepository.findAll();
+		}
+
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("tests/list");
-		mav.addObject("user", user);
 		mav.addObject("tests", tests);
+		mav.addObject("user", user);
+		mav.setViewName("tests/list");
 		return mav;
 	}
 
@@ -124,12 +132,12 @@ public class TestController {
 		}
 		boolean checker = DatabaseRepository.checkUser(user);
 		if (checker) {
-				 return new ModelAndView("/registration","userError", "Пользователь с таким именем уже существует");
-			 }
+			return new ModelAndView("/registration","userError", "Пользователь с таким именем уже существует");
+		}
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/tests");
+		User currentUser = DatabaseRepository.saveUser(user);
+		mav.setViewName("redirect:/" + currentUser.getId() + "/tests");
 		mav.addObject("user", user);
-		DatabaseRepository.saveUser(user);
 		return mav;
 	}
 

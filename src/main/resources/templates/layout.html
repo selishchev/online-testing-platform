@@ -13,16 +13,23 @@
     <div class="container">
       <div class="navbar myNavbar">
         <div class="navbar-inner">
-          <ul class="nav">
-            <li>
+            <div class="SEO">
+              <span th:text="${user.firstName}"></span>
+              <span th:text="${user.secondName}"></span>
+              <span th:if="${user.isTeacher}" th:text="${user.lastName}"></span>
+              <div th:switch="${user.isTeacher}">
+                <span th:case="false" th:text="(student)"></span>
+                <span th:case="true" th:text="(teacher)"></span>
+              </div>
+            </div>
+            <div th:if="${user.isTeacher}" class="but">
               <a href="form.html" th:href="@{tests/test}">Create Test</a>
-            </li>
-            <li>
+            </div>
+            <div>
               <a th:href="@{/tests}" href="tests/list.html">
                 List of tests
               </a>
-            </li>
-          </ul>
+            </div>
         </div>
       </div>
       <h1 layout:fragment="header">Layout</h1>

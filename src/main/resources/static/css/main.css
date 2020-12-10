@@ -5,23 +5,12 @@
 }
 
 .myNavbar {
-    margin-top: auto;
-    margin-right: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    color: #000000;
     margin-bottom: 70px;
 }
 .testName {
     background: white;
 }
-.navbar .nav>li>a {
-    color: #000000;
-    padding-top: 25px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-}
+
 table {
     max-width: 100%;
     background-color: #FFFFFF;
@@ -30,9 +19,45 @@ table {
     margin-top: 50px;
 }
 
-.navbar .nav {
-    margin-top: auto;
-    margin-right: auto;
-    margin-bottom: auto;
-    margin-left: 650px;
+.SEO {
+    margin-left: 0px;
+}
+.but {
+    margin-left: auto;
+}
+
+.log {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFED83;
+    padding: 20px;
+    margin-top: 20px;
+    height: 350px;
+    width: 550px;
+}
+
+label[class="label_text"] {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+input[type="submit"] {
+    background: #ffffff;
+    display: block;
+    text-align: center;
+    line-height: 20px;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+label[title="Login"] {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 25px;
+    margin-top: 10px;
 }

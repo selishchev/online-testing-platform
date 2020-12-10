@@ -4,16 +4,22 @@
       layout:decorator="layout">
 <head>
     <title>Login</title>
+    <style>
+        div.navbar-inner {
+            display: none !important
+        }
+    </style>
 </head>
 <body>
 <h1 layout:fragment="header"></h1>
 <div layout:fragment="content"
      class="container">
-    <div class="mw-100 testName">
-        Login
-    </div>
+    <div class="log">
+        <label title="Login">Login into system</label>
+        <label title="authorization">Authorization</label>
+        <label title="registration">Registration</label>
     <form id="loginForm"
-          th:action="@{/login}"
+          th:action="@{/tests}"
           th:object="${user}"
           action="#"
           method="post">
@@ -41,9 +47,10 @@
                th:field="*{password}"
                th:class="${#fields.hasErrors('password')} ? 'field-error'"/>
         <div class="form-actions">
-            <input type="submit" value="Login"/>
+        <input type="submit" value="Login"/>
         </div>
     </form>
+    </div>
 </div>
 </body>
 </html>

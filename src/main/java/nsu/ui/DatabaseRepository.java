@@ -152,24 +152,19 @@ public class DatabaseRepository implements TestRepository {
         }
     }
 
-    public static User findByEmailWithCheck(String email) {
+    public static User findByEmail(String email) {
         User user = new User();
         String selectSql = "select * from user where email = '" + email + "'";
         try {
             result = statement.executeQuery(selectSql);
-            if (result.next()) {
-                while (result.next()) {
-                    user.setId(result.getLong(1));
-                    user.setIsTeacher(result.getBoolean(2));
-                    user.setFirstName(result.getString(3));
-                    user.setSecondName(result.getString(4));
-                    user.setLastName(result.getString(5));
-                    user.setPassword(result.getString(6));
-                    user.setEmail(result.getString(7));
-                }
-            }
-            else {
-                return null;
+            while (result.next()) {
+                user.setId(result.getLong(1));
+                user.setIsTeacher(result.getBoolean(2));
+                user.setFirstName(result.getString(3));
+                user.setSecondName(result.getString(4));
+                user.setLastName(result.getString(5));
+                user.setPassword(result.getString(6));
+                user.setEmail(result.getString(7));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -177,12 +172,11 @@ public class DatabaseRepository implements TestRepository {
         return user;
     }
 
-    public static void saveUser(User user) {
+    public static User saveUser(User user) {
         int isTeacher;
         if (user.getIsTeacher()) {
             isTeacher = 1;
-        }
-        else {
+        } else {
             isTeacher = 0;
         }
         String insertSql = "INSERT INTO user(is_teacher, first_name, second_name, last_name, password, email) " +
@@ -193,6 +187,8 @@ public class DatabaseRepository implements TestRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return DatabaseRepository.findByEmail(user.getEmail());
     }
 
     public static boolean checkUser(User user) {
@@ -219,9 +215,34 @@ public class DatabaseRepository implements TestRepository {
         return false;
     }
 
-    public static User findByEmail(String email) {
+    public static User findByEmailWithCheck(String email) {
         User user = new User();
         String selectSql = "select * from user where email = '" + email + "'";
+        try {
+            result = statement.executeQuery(selectSql);
+            if (result.next()) {
+                while (result.next()) {
+                    user.setId(result.getLong(1));
+                    user.setIsTeacher(result.getBoolean(2));
+                    user.setFirstName(result.getString(3));
+                    user.setSecondName(result.getString(4));
+                    user.setLastName(result.getString(5));
+                    user.setPassword(result.getString(6));
+                    user.setEmail(result.getString(7));
+                }
+            }
+            else {
+                return null;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return user;
+    }
+
+    public static User findUserById(Long id) {
+        User user = new User();
+        String selectSql = "SELECT * from user where id = " + id;
         try {
             result = statement.executeQuery(selectSql);
             while (result.next()) {
@@ -239,4 +260,28 @@ public class DatabaseRepository implements TestRepository {
         return user;
     }
 
+    public static ArrayList<Tests> findTeacherTests(Long id) {
+        String selectSql = "SELECT * from tests where teacher_id = " + id;
+        ArrayList<Tests> tests = new ArrayList<>();
+        Tests test = new Tests();
+        try {
+            result = statement.executeQuery(selectSql);
+            while (result.next()) {
+                test = new Tests();
+                test.setId(result.getLong(1));
+                test.setTestName(result.getString(2));
+            }
+
+            String selectQuestions = "SELECT question from questions WHERE test_id= " + test.getId();
+            result = statement.executeQuery(selectQuestions);
+            while (result.next()) {
+                test.setQuestionToList(result.getString(1));
+            }
+            tests.add(test);
+
+        } catch (SQLException e) {
+            System.out.println("Ошибка Select");
+        }
+        return tests;
+    }
 }
