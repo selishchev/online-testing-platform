@@ -89,10 +89,6 @@ input[name="tabs"] {
     display: none;
 }
 
-#tab-1:checked ~ #loginForm, #tab-2:checked ~ #userForm {
-    display: block;
-}
-
 input[id="btn"] {
     background: #ffffff;
     display: flex;
@@ -102,4 +98,8 @@ input[id="btn"] {
     padding: 5px;
     margin-top: 10px;
     margin-left: 180px;
+}
+
+a {
+    color: #000000;
 }
