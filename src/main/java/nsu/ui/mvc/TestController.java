@@ -125,14 +125,13 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "registration", method = RequestMethod.POST)
-	public ModelAndView addUser(@ModelAttribute User user, @Valid User userForm, BindingResult result,
-								RedirectAttributes redirect) {
+	public ModelAndView addUser(@ModelAttribute User user, @Valid BindingResult result) {
 		if (result.hasErrors()) {
-			return new ModelAndView("/registration", "formErrors", result.getAllErrors());
+			return new ModelAndView("tests/registration", "formErrors", result.getAllErrors());
 		}
 		boolean checker = DatabaseRepository.checkUser(user);
 		if (checker) {
-			return new ModelAndView("/registration","userError", "Пользователь с таким именем уже существует");
+			return new ModelAndView("tests/registration","userError", "The user already exists");
 		}
 		ModelAndView mav = new ModelAndView();
 		User currentUser = DatabaseRepository.saveUser(user);
@@ -150,25 +149,24 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public ModelAndView loginUser(@ModelAttribute User user, @Valid User loginForm, BindingResult result,
-								RedirectAttributes redirect) {
+	public ModelAndView loginUser(@ModelAttribute User user, @Valid BindingResult result) {
 		if (result.hasErrors()) {
-			return new ModelAndView("/login", "formErrors", result.getAllErrors());
+			return new ModelAndView("tests/login", "formErrors", result.getAllErrors());
 		}
 		if (DatabaseRepository.checkUser(user)) {
 			if (!DatabaseRepository.checkPassword(user)) {
-				return new ModelAndView("/login","passwordError", "Incorrect password");
+				return new ModelAndView("tests/login","passwordError", "Incorrect password");
 			}
 			else {
-				user = DatabaseRepository.findByEmail(user.getEmail());
+				User currentUser = DatabaseRepository.findByEmail(user.getEmail());
 				ModelAndView mav = new ModelAndView();
-				mav.setViewName("redirect:/tests");
+				mav.setViewName("redirect:/" + currentUser.getId() + "/tests");
 				mav.addObject("user", user);
 				return mav;
 			}
 		}
 		else {
-			return new ModelAndView("tests/login","emailError", "Пользователя с таким именем не существует");
+			return new ModelAndView("tests/login","emailError", "The user does not exist");
 		}
 	}
 
