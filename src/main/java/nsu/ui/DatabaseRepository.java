@@ -284,4 +284,14 @@ public class DatabaseRepository implements TestRepository {
         }
         return tests;
     }
+
+    public static void saveAnswer(String answer, Long test_id){
+        String insertSql = "INSERT INTO answers(question_id, answer) values("+test_id+", '"
+                + answer + "')";
+        try {
+            statement.executeUpdate(insertSql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

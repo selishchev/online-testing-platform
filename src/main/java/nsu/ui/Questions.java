@@ -25,7 +25,18 @@ public class Questions {
         this.test_id = test_id;
     }
 
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
     private Long id;
     private String question;
     private Long test_id;
+    private String answer;
+
+
 }
